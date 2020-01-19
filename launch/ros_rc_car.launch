@@ -1,0 +1,4 @@
+<launch>
+  <node name="joy_node" pkg="joy" type="joy_node" />
+  <node name="teleop_rccar" pkg="ros_rc_package" type="teleop_rccar" />
+</launch>
