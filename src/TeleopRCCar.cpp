@@ -35,7 +35,7 @@ void TeleopRCCar::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "teleop_rccar");
+    ros::init(argc, argv, "Teleop_rccar");
     TeleopRCCar teleop_rccar;
 
     ros::spin();
