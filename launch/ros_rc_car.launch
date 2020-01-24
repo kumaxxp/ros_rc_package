@@ -1,4 +1,5 @@
 <launch>
   <node name="joy_node" pkg="joy" type="joy_node" />
+  <node name="pca9685_node" pkg="pwm_pca9685" type="pca9685_node" />
   <node name="Teleop_rccar" pkg="ros_rc_package" type="Teleop_rccar" />
 </launch>
