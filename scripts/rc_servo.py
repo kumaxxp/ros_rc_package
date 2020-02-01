@@ -4,40 +4,39 @@
 import rospy
 # メッセージの型等のimport
 from geometry_msgs.msg import Twist
-
+from sensor_msgs.msg import Joy
 import time
 import Adafruit_PCA9685
 
-class Subscribers():
+class rc_servo():
     def __init__(self):
-        pwm = Adafruit_PCA9685.PCA9685()
-        pwm.set_pwm_freq(60)
+        self.pwm = Adafruit_PCA9685.PCA9685()
+        self.pwm.set_pwm_freq(60)
 
         # Subscriberを作成
-        self.subscriber = rospy.Subscriber('joy', Twist, self.callback)
-            # messageの型を作成
-        self.message = Twist()
+        self.subscriber = rospy.Subscriber('joy', Joy, self.callback, queue_size=1)
 
-    def callback(self, message):
+    def callback(self, joy_msg):
         # アナログ左スティック（左側＋、右側ー）
-        a =  90*message.buttons[0]/1.3
+        a =  90*joy_msg.buttons[0]/1.3
         pos = 90 +int(a)
 
         pulse = (650-150)*pos/180+150+(-10)
-        pwm.set_pwm(0, 0, pulse)
+        self.pwm.set_pwm(0, 0, pulse)
+
+        rospy.loginfo(joy_msg)
 
         #duty = int( float(angle) * 2.17 + 102 )
-        #pwm.set_pwm(0, 0, duty)
-
-def main():
-    # nodeの立ち上げ
-    rospy.init_node('rc_servo')
-
-    # クラスの作成
-    sub = Subscribers()
-    rospy.spin()
+        #self.pwm.set_pwm(0, 0, duty)
 
 if __name__ == '__main__':
-   main()
+    # nodeの立ち上げ
+    rospy.init_node('rc_servo')
+    rate = rospy.Rate(10) # 10Hz
+
+    # クラスの作成
+    sub = rc_servo()
+    rospy.spin()
+
 
 
