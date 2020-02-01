@@ -1,3 +1,0 @@
-<launch>
-  <node name="pca9685_node" pkg="pwm_pca9685" type="pca9685_node" />
-</launch>
